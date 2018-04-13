@@ -859,8 +859,9 @@ bool SPIFlash::eraseBlock64K(uint32_t _addr) {
 	return true;
 }
 
-//Erases whole chip. Think twice before using.
-bool SPIFlash::eraseChip(void) {
+// Erases whole chip. Think twice before using.
+// Enter opt = 1 for SST26VF0XX memories. Leave it blank otherwise
+bool SPIFlash::eraseChip(uint8_t opt) {
   #ifdef RUNDIAGNOSTIC
     _spifuncruntime = micros();
   #endif
@@ -868,7 +869,11 @@ bool SPIFlash::eraseChip(void) {
     return false;
   }
 
-	_beginSPI(CHIPERASE);
+  if (opt == 1)
+  	_beginSPI(0xC7);
+  else
+  	_beginSPI(CHIPERASE);
+
   _endSPI();
 
 	while(_readStat1() & BUSY) {
@@ -882,6 +887,7 @@ bool SPIFlash::eraseChip(void) {
 	return true;
 
 }
+
 
 //Suspends current Block Erase/Sector Erase/Page Program. Does not suspend chipErase().
 //Page Program, Write Status Register, Erase instructions are not allowed.

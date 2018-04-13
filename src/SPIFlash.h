@@ -206,7 +206,7 @@ public:
   bool     eraseSector(uint32_t _addr);
   bool     eraseBlock32K(uint32_t _addr);
   bool     eraseBlock64K(uint32_t _addr);
-  bool     eraseChip(void);
+  bool     eraseChip(uint8_t opt=0);
   //-------------------------------- Power functions ------------------------------------//
   bool     suspendProg(void);
   bool     resumeProg(void);
